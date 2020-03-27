@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body onload="startGame()">
+<script>
+
+	var ballr, bally, ballg, background;
+
+	function startGame() {
+		gameArea.start();
+		background = new component(500, 500, "background.png", 0, 0);
+		ballr = new component(30, 30, "ball1.png", 470, 90);
+	    bally = new component(30, 30, "ball4.png", 470, 120);
+	    ballg = new component(30, 30, "ball6.png", 470, 150);
+	    ballt = new component(30, 30, "ball3.png", 470, 180);
+	    
+	}
+
+	var gameArea = {
+	    canvas : document.createElement("canvas"),
+	    start : function() {
+	        this.canvas.width = 500;
+	        this.canvas.height = 500;
+	        this.context = this.canvas.getContext("2d");
+	        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+	        /*
+	        this.context.font = "30px Arial Black";
+	        this.context.fillStyle = "orange";
+	        this.context.fillText("Bubble Shooter", 10, 10);
+	        */
+	        this.interval = setInterval(updateGame, 20);
+	    },
+	    name : function() {
+	        this.context.font = "30px Arial Black";
+	        this.context.fillStyle = "orange";
+	        this.context.fillText("Bubble Shooter", 20, 40);
+	    },
+	    clear : function() {
+	        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+	    }
+	}
+	
+	function component(width, height, source, x, y) {
+		this.image = new Image();
+		this.image.src = source;
+		this.width = width;
+		this.height = height;
+		this.dx = 0;
+		this.x = x;
+		this.y = y;
+		/*
+		ctx = context;
+		ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		*/
+		
+		this.update = function() {
+			ctx = gameArea.context;
+			ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+		}
+		
+		this.newPos = function() {
+			
+			if(this.x >= 500 || this.x <= 0) {
+				this.dx *= -1;
+			}
+			
+			if(this.x >= 471) {
+				this.x = x;
+			}
+			
+			this.x += this.dx;
+		}
+		
+	}
+
+	function updateGame() {
+		gameArea.clear();
+		background.update();
+		gameArea.name();
+		ballr.dx -= 1;
+		ballr.newPos();
+		ballr.update();
+		bally.dx -= 1;
+		bally.newPos();
+		bally.update();
+		ballg.dx -= 1;
+		ballg.newPos();
+		ballg.update();
+		ballt.dx -= 1;
+		ballt.newPos();
+		ballt.update();
+	}
+	
+</script>
+</body>
+</html>
